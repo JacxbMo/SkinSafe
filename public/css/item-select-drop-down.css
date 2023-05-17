@@ -1,0 +1,32 @@
+#item-type-select-container {
+	border-top: 1px solid rgba(255, 255, 255, 0.125);
+	position: absolute;
+	height: 48px;
+	width: calc(100% - 108px);
+	z-index: 5;
+	background-color: #1d2126;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 0 54px 0 54px;
+}
+
+#item-type-select-container p {
+	opacity: 0.5;
+	cursor: pointer;
+	transition: 0.25s;
+	font-family: 'Genos', sans-serif;
+	color: white;
+	text-shadow: 0 0 5px black;
+	transform: translateY(-1px);
+}
+
+#item-type-select-container p i {
+	font-size: 0.75rem;
+	margin: 0 0 0 0.5rem;
+}
+
+#item-type-select-container p:hover {
+	opacity: 1;
+}

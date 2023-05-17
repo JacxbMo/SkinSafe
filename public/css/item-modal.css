@@ -1,0 +1,377 @@
+#item-modal-container {
+	width: 100vw;
+	height: 100dvh;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9;
+	display: flex;
+	display: none;
+}
+
+#item-modal {
+	width: 1200px;
+	height: 650px;
+	background-color: #1d2126;
+	border: 2px solid #1d2126;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+	display: flex;
+	border-radius: 0.25rem;
+}
+
+#item-modal-image-container {
+	width: 700px;
+	height: 100%;
+	background-color: #21252b;
+	border-right: 2px solid #1d2126;
+	display: flex;
+	flex-direction: column;
+}
+
+#item-modal-image-top {
+	padding: 0 0 1rem 0;
+	border-bottom: 2px solid #1d2126;
+}
+
+#item-modal-close-button {
+	color: white;
+	text-shadow: 0 0 5px black;
+	opacity: 0.5;
+	font-family: 'Genos', sans-serif;
+	margin: 12px 0 0 17px;
+	cursor: pointer;
+	transition: 0.25s;
+}
+
+#item-modal-close-button:hover {
+	opacity: 1;
+}
+
+#item-modal-close-button i {
+	transform: translateY(2px);
+	margin: 0 0.5rem 0 0;
+}
+
+#item-modal-info-container {
+	width: calc(100% - 700px - 2px);
+	height: 100%;
+	background-color: #21252b;
+	position: relative;
+}
+
+#item-modal-main-image-container {
+	width: 100%;
+	height: 350px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+#item-modal-main-image-container img {
+	width: auto;
+	object-fit: contain;
+	position: absolute;
+	-webkit-filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));
+	filter: drop-shadow(0px 0px 15px rgb(0, 0, 0, 0.5));
+}
+
+#item-modal-main-top {
+	top: 64px;
+}
+
+#item-modal-main-bottom {
+	bottom: 64px;
+}
+
+#item-modal-view-in-game {
+	float: right;
+	margin: 0 1rem 11px 0;
+	font-family: 'Genos', sans-serif;
+	text-decoration: none;
+	color: white;
+	opacity: 0.5;
+	text-shadow: 0 0 5px black;
+	transition: 0.25s;
+	cursor: pointer;
+}
+
+#item-modal-view-in-game:hover {
+	opacity: 1;
+}
+
+#item-modal-view-in-game i {
+	font-size: 0.75rem;
+	margin: 0 0 0 0.5rem;
+}
+
+#item-modal-float-container {
+	width: calc(100% - 2rem);
+	height: 8px;
+	margin: 0 0 0 1rem;
+	display: flex;
+}
+
+#item-modal-float-container p {
+	margin-right: 1rem;
+	color: white;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	transform: translateY(-4px);
+	text-shadow: 0 0 5px black;
+}
+
+#item-modal-float-bar-container {
+	flex-grow: 1;
+	height: 100%;
+	display: flex;
+	position: relative;
+	border-radius: 4px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#item-modal-float-bar-container i {
+	position: absolute;
+	transform: translateY(1px) translateX(-4px);
+	color: white;
+	text-shadow: 0 0 5px black;
+}
+
+#item-modal-wear {
+	color: white;
+	opacity: 0.5;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	margin: 12px 0 0 1rem;
+}
+
+#item-modal-name {
+	color: white;
+	font-family: 'Genos', monospace;
+	font-size: 1.5rem;
+	margin: 2px 0 0 15px;
+}
+
+#item-modal-price {
+	color: white;
+	font-family: 'Genos', monospace;
+	font-size: 1.5rem;
+	margin: -2px 0 0 1rem;
+}
+
+#item-modal-suggested-price {
+	color: white;
+	opacity: 0.5;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	margin: 5px 0 0 1rem;
+}
+
+#item-modal-description-title {
+	color: white;
+	font-family: 'Genos', monospace;
+	margin: 5px 0 0 1rem;
+}
+
+#item-modal-description {
+	color: white;
+	opacity: 0.125;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	width: calc(100% - 2rem);
+	margin: 8px 0 0 1rem;
+}
+
+#item-modal-extra-info {
+	width: calc(100% - 2rem);
+	margin: 7px 0 0 1rem;
+}
+
+#item-modal-finish {
+	margin-top: 5px;
+}
+
+#item-modal-extra-info p {
+	width: 50%;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	color: rgba(255, 255, 255, 0.5);
+	position: relative;
+}
+
+#item-modal-extra-info p span {
+	color: white;
+	font-family: 'Genos', monospace;
+	font-size: 1rem;
+	transform: translateY(0px);
+	display: inline-block;
+}
+
+#item-modal-add-to-sale {
+	width: calc(100% - 2rem - 4px);
+	margin: 1rem 0 0 1rem;
+	font-family: 'Genos', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 0 1rem 0;
+	font-size: 1.25rem;
+	color: rgba(255, 255, 255, 1);
+	border-radius: 0.125rem;
+	border: 2px solid #1d2126;
+	background-color: rgb(67, 198, 227);
+	position: absolute;
+	bottom: 16px;
+	opacity: 0.5;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	transition: 0.25s;
+	cursor: pointer;
+	border: none;
+}
+
+#item-modal-add-to-sale:hover {
+	opacity: 1;
+}
+
+#item-modal-image-bottom {
+	flex-grow: 1;
+	display: flex;
+}
+
+.item-modal-sticker {
+	width: 25%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.item-modal-sticker-img {
+	flex-grow: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 4px;
+}
+.item-modal-sticker-img p {
+	text-shadow: 0 0 5px black;
+}
+
+.item-modal-sticker-img img {
+	width: 70%;
+	-webkit-filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));
+	filter: drop-shadow(0px 0px 15px rgb(0, 0, 0, 0.5));
+}
+
+.item-modal-sticker-type {
+	color: white;
+	opacity: 0.5;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	margin: 12px 0 0 0;
+}
+
+.item-modal-sticker-name {
+	color: white;
+	font-family: 'Genos', sans-serif;
+	margin-bottom: 5px;
+}
+
+.item-modal-sticker-extra {
+	color: white;
+	font-family: 'Genos', sans-serif;
+	margin-bottom: 7px;
+}
+
+.item-modal-sticker-scrape {
+	color: white;
+	opacity: 0.5;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 0.75rem;
+	margin-bottom: 13px;
+}
+
+#send-item-sell-form {
+	width: calc(100% - 2rem);
+	margin: 0 0 0 1rem;
+	position: absolute;
+	bottom: 88px;
+	display: flex;
+}
+
+.item-modal-split-title {
+	font-family: 'Genos', sans-serif;
+	color: white;
+	text-shadow: 0 0 5px black;
+	margin-bottom: 1px;
+	margin-right: auto;
+	margin-left: 31px;
+	opacity: 0.5;
+}
+
+#send-item-sell-form div div p {
+	color: white;
+	margin-right: 0.5rem;
+	font-family: 'Genos', sans-serif;
+	font-size: 1.25rem;
+	text-shadow: 0 0 5px black;
+	transform: translateY(7px);
+}
+
+.item-modal-recieve-pay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+#send-item-sell-form div div input {
+	background-color: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.125);
+	border-radius: 0.25rem;
+	font-family: 'Source Code Pro', monospace;
+	color: rgba(255, 255, 255, 0.75);
+	text-shadow: 0 0 5px black;
+	transform: translateY(2px);
+	padding: 2px 0.5rem 2px 0.5rem;
+	height: 2rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#send-item-sell-form div div input::placeholder {
+	text-shadow: none;
+	transition: 0.25s;
+}
+
+#send-item-sell-form div div input:focus::placeholder {
+	opacity: 0;
+}
+
+#send-item-sell-form div div input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+#send-item-sell-form input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+#send-item-sell-form div div input:focus {
+	outline: none;
+}
+
+#send-item-sell-form div div {
+	display: flex;
+}
+
+#item-modal-you-recieve {
+	width: calc(50% - 0.5rem);
+}
+
+.item-modal-recieve-pay {
+	width: calc(50% - 0.5rem);
+}
