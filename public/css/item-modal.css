@@ -256,12 +256,12 @@
 	justify-content: center;
 	margin-top: 4px;
 }
-.item-modal-sticker-img p {
+
+.item-modal-sticker p {
 	text-shadow: 0 0 5px black;
 }
 
 .item-modal-sticker-img img {
-	width: 70%;
 	-webkit-filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));
 	filter: drop-shadow(0px 0px 15px rgb(0, 0, 0, 0.5));
 }
@@ -272,18 +272,21 @@
 	font-family: 'Source Code Pro', monospace;
 	font-size: 0.75rem;
 	margin: 12px 0 0 0;
+	white-space: nowrap;
 }
 
 .item-modal-sticker-name {
 	color: white;
 	font-family: 'Genos', sans-serif;
 	margin-bottom: 5px;
+	white-space: nowrap;
 }
 
 .item-modal-sticker-extra {
 	color: white;
 	font-family: 'Genos', sans-serif;
 	margin-bottom: 7px;
+	white-space: nowrap;
 }
 
 .item-modal-sticker-scrape {
@@ -292,6 +295,7 @@
 	font-family: 'Source Code Pro', monospace;
 	font-size: 0.75rem;
 	margin-bottom: 13px;
+	white-space: nowrap;
 }
 
 #send-item-sell-form {

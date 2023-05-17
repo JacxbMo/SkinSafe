@@ -235,6 +235,32 @@ function checkDescription(description) {
 	}
 }
 
+function addStickers(stickerimg, stickerText) {
+	const stickerNames = stickerText.substring(stickerText.indexOf(`.png"><br>`), stickerText.lastIndexOf('</center>')).replace(`.png"><br>Sticker: `, '');
+
+	let tagsArray = stickerNames.split(/,\s*/).map((s) => ({ sticker: s }));
+	console.log(tagsArray);
+
+	if (stickerText.length > 0) {
+		for (let i = 0; i < foundStickers(stickerimg).length; i++) {
+			const sticker = document.createElement('div');
+			sticker.className = 'item-modal-sticker';
+			sticker.innerHTML = `<div class="item-modal-sticker">
+						<p class="item-modal-sticker-type">HOLO</p>
+						<div class="item-modal-sticker-img">
+							<img src="${foundStickers(stickerimg)[i]}">
+						</div>
+						<p class="item-modal-sticker-name">${tagsArray[i].sticker}</p>
+						<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+						<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
+					</div>`;
+			document.getElementById('item-modal-image-bottom').appendChild(sticker);
+		}
+	} else {
+		console.log('false');
+	}
+}
+
 window.addEventListener('click', (event) => {
 	if (event.target.className == 'fa-solid fa-circle-info') {
 		const assetId = event.target.closest('.market-grid-item').id;
@@ -265,42 +291,7 @@ window.addEventListener('click', (event) => {
 						</div>
 					</div>
 					<div id="item-modal-image-bottom">
-						<div class="item-modal-sticker">
-							<p class="item-modal-sticker-type">HOLO</p>
-							<div class="item-modal-sticker-img">
-								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
-							</div>
-							<p class="item-modal-sticker-name">TITAN</p>
-							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
-							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
-						</div>
-						<div class="item-modal-sticker">
-							<p class="item-modal-sticker-type">HOLO</p>
-							<div class="item-modal-sticker-img">
-								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
-							</div>
-							<p class="item-modal-sticker-name">TITAN</p>
-							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
-							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
-						</div>
-						<div class="item-modal-sticker">
-							<p class="item-modal-sticker-type">HOLO</p>
-							<div class="item-modal-sticker-img">
-								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
-							</div>
-							<p class="item-modal-sticker-name">TITAN</p>
-							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
-							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
-						</div>
-						<div class="item-modal-sticker">
-							<p class="item-modal-sticker-type">HOLO</p>
-							<div class="item-modal-sticker-img">
-								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
-							</div>
-							<p class="item-modal-sticker-name">TITAN</p>
-							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
-							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
-						</div>
+
 					</div>
 				</div>
 				<div id="item-modal-info-container">
@@ -327,5 +318,6 @@ window.addEventListener('click', (event) => {
 					<input id="item-modal-add-to-sale" type="submit" value="PUT UP FOR SALE">
 				</div>
 			`;
+		addStickers(itemDescriptions, itemDescriptions.descriptions[itemDescriptions.descriptions.length - 1].value);
 	}
 });
