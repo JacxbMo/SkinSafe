@@ -30,6 +30,8 @@ function foundStickers(item) {
 	return stickers;
 }
 
+const inventoryArr = [];
+
 const getInventory = async () => {
 	const options = {
 		method: 'GET',
@@ -39,6 +41,7 @@ const getInventory = async () => {
 	const inventoryRes = await inventoryReq.json();
 
 	console.log(inventoryRes);
+	inventoryArr.push(inventoryRes);
 
 	document.getElementById('market-content-grid').innerHTML = '';
 
@@ -185,7 +188,7 @@ const getInventory = async () => {
 								<div class="grid-item-content-container">
 									<div class="gird-item-top-info">
 										<i class="fa-solid fa-circle-plus"></i>
-										<p>${checkWear()}</p>
+										<p class="grid-item-wear">${checkWear()}</p>
 										<i class="fa-solid fa-circle-info"></i>
 									</div>
 									<div class="grid-item-img-container">
@@ -221,3 +224,108 @@ const getInventory = async () => {
 };
 
 getInventory();
+
+function checkDescription(description) {
+	if (description && description.includes('<i>')) {
+		return `${description.replace('<i>', '').replace('</i>', '')}.`;
+	} else if (description) {
+		return description;
+	} else {
+		return 'N/A';
+	}
+}
+
+window.addEventListener('click', (event) => {
+	if (event.target.className == 'fa-solid fa-circle-info') {
+		const assetId = event.target.closest('.market-grid-item').id;
+		console.log(inventoryArr);
+		const filteredAsset = inventoryArr[0].assets.find((e) => e.assetid == assetId);
+		const itemDescriptions = inventoryArr[0].descriptions.find((e) => e.classid == filteredAsset.classid);
+		console.log(filteredAsset);
+		console.log(itemDescriptions);
+		document.getElementById('item-modal').innerHTML = `
+				<div id="item-modal-image-container">
+					<div id="item-modal-image-top">
+						<p id="item-modal-close-button"><i class="fa-solid fa-arrow-left"></i>GO BACK</p>
+						<div id="item-modal-main-image-container">
+							<img id="item-modal-main-top" src="https://cdn.skinport.com/cdn-cgi/image/width=512,height=384,fit=pad,format=webp,quality=85,background=transparent/images/screenshots/160216293/playside.png">
+							<img id="item-modal-main-bottom" src="https://cdn.skinport.com/cdn-cgi/image/width=512,height=384,fit=pad,format=webp,quality=85,background=transparent/images/screenshots/160216293/backside.png">
+						</div>
+						<a id="item-modal-view-in-game" href="">VIEW IN GAME<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+						<div id="item-modal-float-container">
+							<p>0.0328904</p>
+							<div id="item-modal-float-bar-container">
+								<i class="fa-solid fa-caret-up"></i>
+								<div class="factory-new-float-bar"></div>
+								<div class="minimal-wear-float-bar"></div>
+								<div class="field-tested-float-bar"></div>
+								<div class="well-worn-float-bar"></div>
+								<div class="battle-scared-float-bar"></div>
+							</div>
+						</div>
+					</div>
+					<div id="item-modal-image-bottom">
+						<div class="item-modal-sticker">
+							<p class="item-modal-sticker-type">HOLO</p>
+							<div class="item-modal-sticker-img">
+								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
+							</div>
+							<p class="item-modal-sticker-name">TITAN</p>
+							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
+						</div>
+						<div class="item-modal-sticker">
+							<p class="item-modal-sticker-type">HOLO</p>
+							<div class="item-modal-sticker-img">
+								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
+							</div>
+							<p class="item-modal-sticker-name">TITAN</p>
+							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
+						</div>
+						<div class="item-modal-sticker">
+							<p class="item-modal-sticker-type">HOLO</p>
+							<div class="item-modal-sticker-img">
+								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
+							</div>
+							<p class="item-modal-sticker-name">TITAN</p>
+							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
+						</div>
+						<div class="item-modal-sticker">
+							<p class="item-modal-sticker-type">HOLO</p>
+							<div class="item-modal-sticker-img">
+								<img src="https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRYQV_bRvCiwMbQVg8kdFAYorOxKglf2_zEfgJO7c6xkc6JkfL1YOuDwDgCvJcn3L_ApN2g2APtrhVpNjuiIYacdg9rM1uD-VG_366x0vI0nNfi">
+							</div>
+							<p class="item-modal-sticker-name">TITAN</p>
+							<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+							<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
+						</div>
+					</div>
+				</div>
+				<div id="item-modal-info-container">
+					<p id="item-modal-wear">${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-type').innerHTML} - ${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-wear').innerHTML}</p>
+					<p id="item-modal-name">${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-name').innerHTML}</p>
+					<p id="item-modal-price">${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-price').innerHTML}</p>
+					<p id="item-modal-suggested-price">${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-suggested-price').innerHTML}</p>
+					<div id="item-modal-extra-info">
+						<p><span>PATTERN INDEX - </span> TBD</p>
+						<p id="item-modal-finish"><span>FINISH - </span> TBD</p>
+					</div>
+					<p id="item-modal-description-title">DESCRIPTION :</p>
+					<p id="item-modal-description">${checkDescription(itemDescriptions.descriptions[2].value)}</p>
+					<form id="send-item-sell-form">
+						<div class="item-modal-recieve-pay">
+							<p class="item-modal-split-title">YOU RECEIVE</p>
+							<div><p>€</p><input placeholder="0.00" type="number" step=".01" id="item-modal-input-recieve" oninput="calculateRecievePay()" maxlength="10"></div>
+						</div>
+						<div class="item-modal-recieve-pay">
+							<p class="item-modal-split-title">THEY PAY</p>
+							<div><p>€</p><input placeholder="0.00" type="number" name="itemPrice" step=".01" id="item-modal-input-pay" oninput="calculateRecieveSend()" maxlength="10"></div>
+						</div>
+					</form>
+					<input id="item-modal-add-to-sale" type="submit" value="PUT UP FOR SALE">
+				</div>
+			`;
+	}
+});
