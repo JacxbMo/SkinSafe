@@ -283,13 +283,19 @@ window.addEventListener('click', (event) => {
 		console.log(filteredAsset);
 		console.log(itemDescriptions);
 
+		function checkModalImg(item) {
+			if (item.icon_url_large) {
+				return item.icon_url_large;
+			}
+			return item.icon_url;
+		}
+
 		document.getElementById('item-modal').innerHTML = `
 				<div id="item-modal-image-container">
 					<div id="item-modal-image-top">
 						<p id="item-modal-close-button"><i class="fa-solid fa-arrow-left"></i>GO BACK</p>
 						<div id="item-modal-main-image-container">
-							<img id="item-modal-main-top" src="https://cdn.skinport.com/cdn-cgi/image/width=512,height=384,fit=pad,format=webp,quality=85,background=transparent/images/screenshots/160216293/playside.png">
-							<img id="item-modal-main-bottom" src="https://cdn.skinport.com/cdn-cgi/image/width=512,height=384,fit=pad,format=webp,quality=85,background=transparent/images/screenshots/160216293/backside.png">
+							<img id="item-modal-main-top" src="https://community.akamai.steamstatic.com/economy/image/${checkModalImg(itemDescriptions)}">
 						</div>
 						<a id="item-modal-view-in-game" href="">VIEW IN GAME<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 						<div id="item-modal-float-container">
@@ -335,9 +341,7 @@ window.addEventListener('click', (event) => {
 		if (itemDescriptions.actions) {
 			document.getElementById('item-modal-view-in-game').href = itemDescriptions.actions[0].link.replace('%owner_steamid%', localStorage.getItem('steamId')).replace('%assetid%', assetId);
 		} else {
-			document.getElementById('item-modal-view-in-game').style.opacity = '0.125';
-			document.getElementById('item-modal-view-in-game').style.cursor = 'default';
-			document.getElementById('item-modal-view-in-game').style.textDecoration = 'line-through';
+			document.getElementById('item-modal-view-in-game').style.pointerEvents = 'none';
 		}
 		addStickers(itemDescriptions, itemDescriptions.descriptions[itemDescriptions.descriptions.length - 1].value);
 	}
