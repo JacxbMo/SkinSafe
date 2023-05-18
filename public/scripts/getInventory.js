@@ -45,81 +45,79 @@ const getInventory = async () => {
 
 	document.getElementById('market-content-grid').innerHTML = '';
 
-	for (let i = 0; i < inventoryRes.descriptions.length; i++) {
-		const itemPrice = getPrices().find((e) => e.market_hash_name == inventoryRes.descriptions[i].market_hash_name);
+	for (let i = 0; i < inventoryRes.assets.length; i++) {
+		const classCheck = inventoryRes.descriptions.find((e) => e.classid == inventoryRes.assets[i].classid);
+		const itemPrice = getPrices().find((e) => e.market_hash_name == classCheck.market_hash_name);
 		if (itemPrice == undefined) {
 			continue;
 		}
-		if (inventoryRes.descriptions[i].tradable === 0 || inventoryRes.descriptions[i].market_hash_name.includes('Pin')) {
+		if (classCheck.tradable === 0 || classCheck.market_hash_name.includes('Pin')) {
 			continue;
 		}
-		const filteredAsset = inventoryRes.assets.find((e) => e.classid == inventoryRes.descriptions[i].classid);
-
-		// console.log(inventoryRes.descriptions[i].actions[0].link.replace('%owner_steamid%', '76561198416694622').replace('%assetid%', filteredAsset.assetid));
 
 		function checkImg() {
-			if (JSON.stringify(inventoryRes.descriptions[i]).includes('icon_url_large')) {
-				return inventoryRes.descriptions[i].icon_url_large;
+			if (JSON.stringify(classCheck).includes('icon_url_large')) {
+				return classCheck.icon_url_large;
 			} else {
-				return inventoryRes.descriptions[i].icon_url;
+				return classCheck.icon_url;
 			}
 		}
 		function checkWear() {
-			if (inventoryRes.descriptions[i].market_hash_name.includes('Sticker') && !inventoryRes.descriptions[i].market_hash_name.includes('Glitter') && !inventoryRes.descriptions[i].market_hash_name.includes('Foil') && !inventoryRes.descriptions[i].market_hash_name.includes('Holo') && !inventoryRes.descriptions[i].market_hash_name.includes('Gold')) {
+			if (classCheck.market_hash_name.includes('Sticker') && !classCheck.market_hash_name.includes('Glitter') && !classCheck.market_hash_name.includes('Foil') && !classCheck.market_hash_name.includes('Holo') && !classCheck.market_hash_name.includes('Gold')) {
 				return 'PAPER';
-			} else if (inventoryRes.descriptions[i].type == 'Base Grade Container') {
+			} else if (classCheck.type == 'Base Grade Container') {
 				return 'MISCELLANEOUS';
-			} else if (inventoryRes.descriptions[i].market_hash_name.includes('★') && !inventoryRes.descriptions[i].market_hash_name.includes('(')) {
+			} else if (classCheck.market_hash_name.includes('★') && !classCheck.market_hash_name.includes('(')) {
 				return 'VANILLA';
-			} else if (inventoryRes.descriptions[i].market_hash_name.includes('Sticker')) {
-				return inventoryRes.descriptions[i].market_hash_name
+			} else if (classCheck.market_hash_name.includes('Sticker')) {
+				return classCheck.market_hash_name
 					.match(/\((.*)\)/)
 					.pop()
 					.toUpperCase();
-			} else if ((inventoryRes.descriptions[i].market_hash_name.includes('Case') && !inventoryRes.descriptions[i].market_hash_name.includes('Case Hardened')) || inventoryRes.descriptions[i].market_hash_name.includes('Sealed Graffiti') || inventoryRes.descriptions[i].market_hash_name.includes('Music Kit')) {
+			} else if ((classCheck.market_hash_name.includes('Case') && !classCheck.market_hash_name.includes('Case Hardened')) || classCheck.market_hash_name.includes('Sealed Graffiti') || classCheck.market_hash_name.includes('Music Kit')) {
 				return 'MISCELLANEOUS';
-			} else if (inventoryRes.descriptions[i].type.includes('Agent')) {
-				return inventoryRes.descriptions[i].market_hash_name.split('|').pop().toUpperCase();
-			} else if (inventoryRes.descriptions[i].market_hash_name.includes('(')) {
-				return inventoryRes.descriptions[i].market_hash_name
+			} else if (classCheck.type.includes('Agent')) {
+				return classCheck.market_hash_name.split('|').pop().toUpperCase();
+			} else if (classCheck.market_hash_name.includes('(')) {
+				return classCheck.market_hash_name
 					.match(/\(([^)]+)\)/)
 					.pop()
 					.toUpperCase();
 			}
 		}
 		function checkType() {
-			if (inventoryRes.descriptions[i].market_hash_name.includes('Case') || inventoryRes.descriptions[i].type == 'Base Grade Container') {
+			if (classCheck.market_hash_name.includes('Case') || classCheck.type == 'Base Grade Container') {
 				return 'CONTAINER';
-			} else if (inventoryRes.descriptions[i].type.includes('Agent')) {
+			} else if (classCheck.type.includes('Agent')) {
 				return 'AGENT';
 			} else {
-				return inventoryRes.descriptions[i].market_hash_name.split('|', 1)[0].toUpperCase();
+				return classCheck.market_hash_name.split('|', 1)[0].toUpperCase();
 			}
 		}
 		function checkName() {
-			if (inventoryRes.descriptions[i].market_hash_name.includes('Sticker') && inventoryRes.descriptions[i].market_hash_name.includes('(')) {
-				return `${inventoryRes.descriptions[i].market_hash_name.substring(inventoryRes.descriptions[i].market_hash_name.indexOf('|') + 1, inventoryRes.descriptions[i].market_hash_name.lastIndexOf('(')).toUpperCase()} ${inventoryRes.descriptions[i].name
-					.substring(inventoryRes.descriptions[i].name.indexOf('|') + 1)
+			if (classCheck.market_hash_name.includes('Sticker') && classCheck.market_hash_name.includes('(')) {
+				return `${classCheck.market_hash_name.substring(classCheck.market_hash_name.indexOf('|') + 1, classCheck.market_hash_name.lastIndexOf('(')).toUpperCase()} ${classCheck.name
+					.substring(classCheck.name.indexOf('|') + 1)
 					.toUpperCase()
 					.split('|')
 					.pop()
 					.replace(/ *\([^)]*\) */g, '')
 					.replace('♥', ' ')}`;
-			} else if (inventoryRes.descriptions[i].market_hash_name.includes('★') && !inventoryRes.descriptions[i].market_hash_name.includes('(')) {
+			} else if (classCheck.market_hash_name.includes('★') && !classCheck.market_hash_name.includes('(')) {
 				return 'VANILLA KNIFE';
-			} else if (inventoryRes.descriptions[i].market_hash_name.includes('Sticker')) {
-				return `${inventoryRes.descriptions[i].market_hash_name.substring(inventoryRes.descriptions[i].market_hash_name.indexOf('|') + 1, inventoryRes.descriptions[i].market_hash_name.lastIndexOf('|')).toUpperCase()} ${inventoryRes.descriptions[i].name
-					.substring(inventoryRes.descriptions[i].name.indexOf('|') + 1)
+			} else if (classCheck.market_hash_name.includes('Sticker')) {
+				return `${classCheck.market_hash_name.substring(classCheck.market_hash_name.indexOf('|') + 1, classCheck.market_hash_name.lastIndexOf('|')).toUpperCase()} ${classCheck.name
+					.substring(classCheck.name.indexOf('|') + 1)
 					.toUpperCase()
 					.split('|')
 					.pop()
 					.replace(/ *\([^)]*\) */g, '')
 					.replace('♥', ' ')}`;
-			} else if (inventoryRes.descriptions[i].type.includes('Agent')) {
-				return inventoryRes.descriptions[i].market_hash_name.split('|')[0].replace(`'`, '').replace(`'`, '').toUpperCase();
+			} else if (classCheck.type.includes('Agent')) {
+				return classCheck.market_hash_name.split('|')[0].replace(`'`, '').replace(`'`, '').toUpperCase();
 			}
-			return inventoryRes.descriptions[i].name
-				.substring(inventoryRes.descriptions[i].name.indexOf('|') + 1)
+			return classCheck.name
+				.substring(classCheck.name.indexOf('|') + 1)
 				.toUpperCase()
 				.split('|')
 				.pop()
@@ -127,36 +125,36 @@ const getInventory = async () => {
 				.replace('♥', ' ');
 		}
 		function checkStickersOne() {
-			if (foundStickers(inventoryRes.descriptions[i])[0]) {
-				return foundStickers(inventoryRes.descriptions[i])[0];
+			if (foundStickers(classCheck)[0]) {
+				return foundStickers(classCheck)[0];
 			} else {
 				return 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/BLANK_ICON.png/120px-BLANK_ICON.png';
 			}
 		}
 		function checkStickersTwo() {
-			if (foundStickers(inventoryRes.descriptions[i])[1]) {
-				return foundStickers(inventoryRes.descriptions[i])[1];
+			if (foundStickers(classCheck)[1]) {
+				return foundStickers(classCheck)[1];
 			} else {
 				return 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/BLANK_ICON.png/120px-BLANK_ICON.png';
 			}
 		}
 		function checkStickersThree() {
-			if (foundStickers(inventoryRes.descriptions[i])[2]) {
-				return foundStickers(inventoryRes.descriptions[i])[2];
+			if (foundStickers(classCheck)[2]) {
+				return foundStickers(classCheck)[2];
 			} else {
 				return 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/BLANK_ICON.png/120px-BLANK_ICON.png';
 			}
 		}
 		function checkStickersFour() {
-			if (foundStickers(inventoryRes.descriptions[i])[3]) {
-				return foundStickers(inventoryRes.descriptions[i])[3];
+			if (foundStickers(classCheck)[3]) {
+				return foundStickers(classCheck)[3];
 			} else {
 				return 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/BLANK_ICON.png/120px-BLANK_ICON.png';
 			}
 		}
 
 		function checkSticker() {
-			if (foundStickers(inventoryRes.descriptions[i])[0]) {
+			if (foundStickers(classCheck)[0]) {
 				return `										<div>
 											<img loading="lazy" src="${checkStickersOne()}"/>
 										</div>
@@ -182,7 +180,7 @@ const getInventory = async () => {
 		}
 
 		const gridItem = document.createElement('div');
-		gridItem.setAttribute('id', filteredAsset.assetid);
+		gridItem.setAttribute('id', inventoryRes.assets[i].assetid);
 		gridItem.className = 'market-grid-item';
 		gridItem.innerHTML = `
 								<div class="grid-item-content-container">
@@ -214,7 +212,7 @@ const getInventory = async () => {
 									</div>
 								</div>
 							`;
-		if (inventoryRes.descriptions[i].market_hash_name.includes('StatTrak')) {
+		if (classCheck.market_hash_name.includes('StatTrak')) {
 			gridItem.querySelector('.grid-item-img').style.filter = 'drop-shadow(0px 0px 25px rgb(227, 224, 67, 0.125)';
 		}
 		gridItem.setAttribute('data-price', checkPriceExistance());
@@ -225,10 +223,24 @@ const getInventory = async () => {
 
 getInventory();
 
+function getInspectLink(itemDescriptions, assetId) {
+	if (itemDescriptions.actions) {
+		document.getElementById('item-modal-view-in-game').style.opacity = '0.5';
+		document.getElementById('item-modal-view-in-game').style.cursor = 'cursor';
+		document.getElementById('item-modal-view-in-game').style.pointerEvents = 'auto';
+		return itemDescriptions.actions[0].link.replace('%owner_steamid%', localStorage.getItem('steamId')).replace('%assetid%', assetId);
+	} else {
+		document.getElementById('item-modal-view-in-game').style.opacity = '0.25';
+		document.getElementById('item-modal-view-in-game').style.cursor = 'default';
+		document.getElementById('item-modal-view-in-game').style.display = 'none';
+		return '';
+	}
+}
+
 function checkDescription(description) {
 	if (description && description.includes('<i>')) {
 		return `${description.replace('<i>', '').replace('</i>', '')}.`;
-	} else if (description) {
+	} else if (description.length > 2) {
 		return description;
 	} else {
 		return 'N/A';
@@ -241,7 +253,7 @@ function addStickers(stickerimg, stickerText) {
 	let tagsArray = stickerNames.split(/,\s*/).map((s) => ({ sticker: s }));
 	console.log(tagsArray);
 
-	if (stickerText.length > 0) {
+	if (stickerText.includes('Sticker')) {
 		for (let i = 0; i < foundStickers(stickerimg).length; i++) {
 			const sticker = document.createElement('div');
 			sticker.className = 'item-modal-sticker';
@@ -257,7 +269,7 @@ function addStickers(stickerimg, stickerText) {
 			document.getElementById('item-modal-image-bottom').appendChild(sticker);
 		}
 	} else {
-		console.log('false');
+		document.getElementById('item-modal-image-bottom').innerHTML = `<div id="item-modal-no-stickers">NO STICKERS FOUND</div>`;
 	}
 }
 
@@ -267,8 +279,10 @@ window.addEventListener('click', (event) => {
 		console.log(inventoryArr);
 		const filteredAsset = inventoryArr[0].assets.find((e) => e.assetid == assetId);
 		const itemDescriptions = inventoryArr[0].descriptions.find((e) => e.classid == filteredAsset.classid);
+
 		console.log(filteredAsset);
 		console.log(itemDescriptions);
+
 		document.getElementById('item-modal').innerHTML = `
 				<div id="item-modal-image-container">
 					<div id="item-modal-image-top">
@@ -318,6 +332,13 @@ window.addEventListener('click', (event) => {
 					<input id="item-modal-add-to-sale" type="submit" value="PUT UP FOR SALE">
 				</div>
 			`;
+		if (itemDescriptions.actions) {
+			document.getElementById('item-modal-view-in-game').href = itemDescriptions.actions[0].link.replace('%owner_steamid%', localStorage.getItem('steamId')).replace('%assetid%', assetId);
+		} else {
+			document.getElementById('item-modal-view-in-game').style.opacity = '0.125';
+			document.getElementById('item-modal-view-in-game').style.cursor = 'default';
+			document.getElementById('item-modal-view-in-game').style.textDecoration = 'line-through';
+		}
 		addStickers(itemDescriptions, itemDescriptions.descriptions[itemDescriptions.descriptions.length - 1].value);
 	}
 });
