@@ -79,7 +79,7 @@ app.get('/sell', (req, res) => {
 app.get('/getInventory', (req, res) => {
 	console.log(req.user);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${'76561198153039097'}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {

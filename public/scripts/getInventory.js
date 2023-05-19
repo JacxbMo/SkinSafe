@@ -237,13 +237,17 @@ function getInspectLink(itemDescriptions, assetId) {
 	}
 }
 
-function checkDescription(description) {
+function checkDescription(description, descriptionTwo) {
 	if (description && description.includes('<i>')) {
 		return `${description.replace('<i>', '').replace('</i>', '')}.`;
 	} else if (description.length > 2) {
 		return description;
+	} else if (descriptionTwo.includes('graffiti')) {
+		return descriptionTwo.replace('<b>', '').replace('</b>', '');
+	} else if (descriptionTwo.includes('sticker')) {
+		return descriptionTwo;
 	} else {
-		return 'N/A';
+		return `Looks like this item doesn't have a description!`;
 	}
 }
 
@@ -324,7 +328,7 @@ window.addEventListener('click', (event) => {
 						<p id="item-modal-finish"><span>FINISH - </span> TBD</p>
 					</div>
 					<p id="item-modal-description-title">DESCRIPTION :</p>
-					<p id="item-modal-description">${checkDescription(itemDescriptions.descriptions[2].value)}</p>
+					<p id="item-modal-description">${checkDescription(itemDescriptions.descriptions[2].value, itemDescriptions.descriptions[0].value)}</p>
 					<form id="send-item-sell-form">
 						<div class="item-modal-recieve-pay">
 							<p class="item-modal-split-title">YOU RECEIVE</p>
