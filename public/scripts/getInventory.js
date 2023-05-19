@@ -240,14 +240,42 @@ function getInspectLink(itemDescriptions, assetId) {
 function checkDescription(description, descriptionTwo) {
 	if (description && description.includes('<i>')) {
 		return `${description.replace('<i>', '').replace('</i>', '')}.`;
-	} else if (description.length > 2) {
+	} else if (description.length > 2 && !description.includes('Agents')) {
 		return description;
 	} else if (descriptionTwo.includes('graffiti')) {
 		return descriptionTwo.replace('<b>', '').replace('</b>', '');
 	} else if (descriptionTwo.includes('sticker')) {
 		return descriptionTwo;
+	} else if (descriptionTwo.includes('</i>')) {
+		return descriptionTwo.replace('</i>', '').replace('<i>', '');
 	} else {
 		return `Looks like this item doesn't have a description!`;
+	}
+}
+
+function checkModalStickerType(sticker) {
+	if (sticker.includes('(') && !sticker.includes('(T)') && !sticker.includes('(CT)')) {
+		return sticker.substring(sticker.indexOf('(') + 1, sticker.lastIndexOf(')')).toUpperCase();
+	} else {
+		return 'PAPER';
+	}
+}
+
+function checkModalStickerName(sticker) {
+	if (sticker.includes('(')) {
+		return sticker.substring(0, sticker.indexOf('(')).toUpperCase();
+	} else if (sticker.includes('|')) {
+		return sticker.substring(0, sticker.indexOf('|')).toUpperCase();
+	} else {
+		return sticker.toUpperCase();
+	}
+}
+
+function checkModalStickerSet(sticker) {
+	if (sticker.includes('|')) {
+		return sticker.split('|')[1].toUpperCase();
+	} else {
+		return 'STICKER';
 	}
 }
 
@@ -262,12 +290,12 @@ function addStickers(stickerimg, stickerText) {
 			const sticker = document.createElement('div');
 			sticker.className = 'item-modal-sticker';
 			sticker.innerHTML = `<div class="item-modal-sticker">
-						<p class="item-modal-sticker-type">HOLO</p>
+						<p class="item-modal-sticker-type">${checkModalStickerType(tagsArray[i].sticker)}</p>
 						<div class="item-modal-sticker-img">
 							<img src="${foundStickers(stickerimg)[i]}">
 						</div>
-						<p class="item-modal-sticker-name">${tagsArray[i].sticker}</p>
-						<p class="item-modal-sticker-extra">KATOWICE 2014</p>
+						<p class="item-modal-sticker-name">${checkModalStickerName(tagsArray[i].sticker)}</p>
+						<p class="item-modal-sticker-extra">${checkModalStickerSet(tagsArray[i].sticker)}</p>
 						<p class="item-modal-sticker-scrape">SCRAPE : 0%</p>
 					</div>`;
 			document.getElementById('item-modal-image-bottom').appendChild(sticker);
