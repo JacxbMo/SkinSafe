@@ -8,10 +8,13 @@ const SteamStrategy = passportSteam.Strategy;
 const requestPromise = require('request-promise');
 const path = require('path');
 
+const fetch = require('node-fetch');
+
 require('dotenv').config();
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.listen(8080, () => {
 	console.log('Server Live!');
@@ -53,6 +56,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+async function getFloat() {
+	const options = {
+		headers: {
+			origin: 'http://steamcommunity.com',
+		},
+	};
+
+	const getFloat = await fetch('https://api.csgofloat.com/?url=steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20M625254122282020305A6760346663D30614827701953021', options);
+	const seeFloat = await getFloat.json();
+	console.log(seeFloat);
+}
+
+getFloat();
+
 // Routes
 app.get('/getUser', (req, res) => {
 	if (req.user) {
@@ -79,7 +96,7 @@ app.get('/sell', (req, res) => {
 app.get('/getInventory', (req, res) => {
 	console.log(req.user);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${'76561198153039097'}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {
@@ -91,20 +108,31 @@ app.get('/getInventory', (req, res) => {
 	);
 });
 
+const indexFunctions = require('./functions.js');
+
 app.post('/sendSale', (req, res) => {
+	console.log(req.body);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${'76561198416694622'}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {
 			const dataJSON = JSON.parse(data);
 			const filteredAsset = dataJSON.assets.find((e) => e.assetid == req.body.assetId);
-			console.log(filteredAsset);
-			if (filteredAsset && !isNaN(req.body.itemPrice) && Number(req.body.itemPrice) > 0.5) {
-				const itemArr = { assetId: req.body.assetId, steamId: req.user.id, itemInfo: dataJSON.descriptions.find((e) => e.classid == filteredAsset.classid) };
+			const itemDescription = dataJSON.descriptions.find((e) => e.classid == filteredAsset.classid);
+			if (filteredAsset && !isNaN(req.body.itemPrice) && Number(req.body.itemPrice) > 0.5 && itemDescription.tradable === 1) {
+				console.log(itemDescription);
+				const itemArr = {
+					assetid: req.body.assetId,
+					steamid: '76561198416694622',
+					market_hash_name: itemDescription.market_hash_name,
+					icon_url_large: itemDescription.icon_url_large,
+					inspect_link: indexFunctions.checkInspect(itemDescription, '76561198416694622', req.body.assetId),
+				};
+				console.log(itemArr);
 				res.json({ status: true });
 			} else {
-				res.json({ status: true });
+				res.json({ status: false });
 			}
 		},
 		function (err) {
