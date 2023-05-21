@@ -168,7 +168,7 @@ const getInventory = async () => {
 											<img loading="lazy" src="${checkStickersFour()}" />
 										</div>`;
 			} else {
-				return 'NO STICKERS FOUND';
+				return 'NOTHING APPLIED';
 			}
 		}
 		function checkPriceExistance() {
@@ -283,9 +283,8 @@ function addStickers(stickerimg, stickerText) {
 	const stickerNames = stickerText.substring(stickerText.indexOf(`.png"><br>`), stickerText.lastIndexOf('</center>')).replace(`.png"><br>Sticker: `, '');
 
 	let tagsArray = stickerNames.split(/,\s*/).map((s) => ({ sticker: s }));
-	console.log(tagsArray);
 
-	if (stickerText.includes('Sticker')) {
+	if (stickerText.includes('Sticker') && !stickerText.includes('Patch')) {
 		for (let i = 0; i < foundStickers(stickerimg).length; i++) {
 			const sticker = document.createElement('div');
 			sticker.className = 'item-modal-sticker';
@@ -300,8 +299,26 @@ function addStickers(stickerimg, stickerText) {
 					</div>`;
 			document.getElementById('item-modal-image-bottom').appendChild(sticker);
 		}
+	} else if (stickerText.includes('Patch')) {
+		const patchText = tagsArray[0].sticker.replace(`.png\"><br>`, '').replace('Patch: ', '');
+		tagsArray[0] = { sticker: patchText };
+		console.log(tagsArray);
+		for (let i = 0; i < foundStickers(stickerimg).length; i++) {
+			const sticker = document.createElement('div');
+			sticker.className = 'item-modal-sticker';
+			sticker.innerHTML = `<div class="item-modal-sticker">
+						<p class="item-modal-sticker-type">${'DEFAULT'}</p>
+						<div class="item-modal-sticker-img">
+							<img src="${foundStickers(stickerimg)[i]}">
+						</div>
+						<p class="item-modal-sticker-name">${checkModalStickerName(tagsArray[i].sticker)}</p>
+						<p class="item-modal-sticker-extra">${'PATCH'}</p>
+						<p class="item-modal-sticker-scrape">CONSTANT WEAR</p>
+					</div>`;
+			document.getElementById('item-modal-image-bottom').appendChild(sticker);
+		}
 	} else {
-		document.getElementById('item-modal-image-bottom').innerHTML = `<div id="item-modal-no-stickers">NO STICKERS FOUND</div>`;
+		document.getElementById('item-modal-image-bottom').innerHTML = `<div id="item-modal-no-stickers">THIS ITEM HAS NOTHING APPLIED TO IT</div>`;
 	}
 }
 

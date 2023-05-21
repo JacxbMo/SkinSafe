@@ -257,6 +257,14 @@
 .item-modal-sticker-img img {
 	-webkit-filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));
 	filter: drop-shadow(0px 0px 15px rgb(0, 0, 0, 0.5));
+	width: 250%;
+	opacity: 0.5;
+	transition: 0.25s;
+}
+
+.item-modal-sticker-img img:hover {
+	opacity: 1;
+	width: 275%;
 }
 
 .item-modal-sticker-type {
@@ -273,6 +281,9 @@
 	font-family: 'Genos', sans-serif;
 	margin-bottom: 5px;
 	white-space: nowrap;
+	max-width: 144px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .item-modal-sticker-extra {
@@ -280,6 +291,9 @@
 	font-family: 'Genos', sans-serif;
 	margin-bottom: 7px;
 	white-space: nowrap;
+	max-width: 144px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .item-modal-sticker-scrape {
@@ -289,6 +303,9 @@
 	font-size: 0.75rem;
 	margin-bottom: 13px;
 	white-space: nowrap;
+	max-width: 144px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #send-item-sell-form {

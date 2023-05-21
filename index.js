@@ -96,7 +96,7 @@ app.get('/sell', (req, res) => {
 app.get('/getInventory', (req, res) => {
 	console.log(req.user);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${'76561198153039097'}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {
@@ -125,9 +125,14 @@ app.post('/sendSale', (req, res) => {
 				const itemArr = {
 					assetid: req.body.assetId,
 					steamid: '76561198416694622',
+					weapon_type: itemDescription.tags[0].internal_name,
 					market_hash_name: itemDescription.market_hash_name,
 					icon_url_large: itemDescription.icon_url_large,
+					sticker_html: indexFunctions.checkStickers(itemDescription),
 					inspect_link: indexFunctions.checkInspect(itemDescription, '76561198416694622', req.body.assetId),
+					wear: null,
+					pattern_index: null,
+					finish_catalog: null,
 				};
 				console.log(itemArr);
 				res.json({ status: true });
@@ -140,3 +145,11 @@ app.post('/sendSale', (req, res) => {
 		}
 	);
 });
+
+// const mysql = require('mysql');
+// const connectSql = mysql.createConnection({
+// 	host: 'localhost',
+// 	user: 'root',
+// 	database: 'sneakersail',
+// 	supportBigNumbers: true,
+// });
