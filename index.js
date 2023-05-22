@@ -10,6 +10,19 @@ const path = require('path');
 
 const fetch = require('node-fetch');
 
+const mysql = require('mysql');
+const connectSql = mysql.createConnection({
+	host: 'localhost',
+	user: 'root',
+	database: 'skinsafe',
+	supportBigNumbers: true,
+});
+
+connectSql.connect(function (err) {
+	if (err) throw err;
+	console.log('Connected to database!');
+});
+
 require('dotenv').config();
 
 app.use(express.static('public'));
@@ -94,13 +107,27 @@ app.get('/sell', (req, res) => {
 });
 
 app.get('/getInventory', (req, res) => {
-	console.log(req.user);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${'76561198153039097'}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {
-			res.send(data);
+			connectSql.query('SELECT * FROM marketitems WHERE steamid = ?', [req.user.id], function (err, result) {
+				if (err) throw err;
+				if (result.length) {
+					const dataJSON = JSON.parse(data);
+					for (let i = 0; i < result.length; i++) {
+						dataJSON.assets = dataJSON.assets.filter(function (el) {
+							return el.assetid != result[i].assetid;
+						});
+						if (i == result.length - 1) {
+							res.send(JSON.stringify(dataJSON));
+						}
+					}
+				} else {
+					res.send(data);
+				}
+			});
 		},
 		function (err) {
 			console.error(err);
@@ -113,7 +140,7 @@ const indexFunctions = require('./functions.js');
 app.post('/sendSale', (req, res) => {
 	console.log(req.body);
 	requestPromise({
-		url: `http://steamcommunity.com/inventory/${'76561198416694622'}/730/2?l=english`,
+		url: `http://steamcommunity.com/inventory/${req.user.id}/730/2?l=english`,
 		proxy: process.env.PROXY_ADDRESS,
 	}).then(
 		function (data) {
@@ -124,18 +151,32 @@ app.post('/sendSale', (req, res) => {
 				console.log(itemDescription);
 				const itemArr = {
 					assetid: req.body.assetId,
-					steamid: '76561198416694622',
+					steamid: req.user.id,
 					weapon_type: itemDescription.tags[0].internal_name,
 					market_hash_name: itemDescription.market_hash_name,
-					icon_url_large: itemDescription.icon_url_large,
+					icon_url_large: indexFunctions.checkIconUrl(itemDescription),
 					sticker_html: indexFunctions.checkStickers(itemDescription),
-					inspect_link: indexFunctions.checkInspect(itemDescription, '76561198416694622', req.body.assetId),
-					wear: null,
-					pattern_index: null,
-					finish_catalog: null,
+					inspect_link: indexFunctions.checkInspect(itemDescription, req.user.id, req.body.assetId),
+					wear: 0,
+					pattern_index: 0,
+					finish_catalog: 0,
+					price: req.body.itemPrice,
+					status: 1,
 				};
 				console.log(itemArr);
-				res.json({ status: true });
+				connectSql.query('SELECT assetid FROM marketitems WHERE assetid = ?', [itemArr.assetid], function (err, result) {
+					if (err) throw err;
+					if (result.length) {
+						console.log(false);
+						res.send(false);
+					} else {
+						console.log(true);
+						connectSql.query('INSERT INTO marketitems SET ?', [itemArr], function (err, result) {
+							if (err) throw err;
+							res.send(true);
+						});
+					}
+				});
 			} else {
 				res.json({ status: false });
 			}
@@ -145,11 +186,3 @@ app.post('/sendSale', (req, res) => {
 		}
 	);
 });
-
-// const mysql = require('mysql');
-// const connectSql = mysql.createConnection({
-// 	host: 'localhost',
-// 	user: 'root',
-// 	database: 'sneakersail',
-// 	supportBigNumbers: true,
-// });

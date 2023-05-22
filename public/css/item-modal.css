@@ -146,6 +146,10 @@
 	font-family: 'Genos', monospace;
 	font-size: 1.5rem;
 	margin: 2px 0 0 15px;
+	white-space: nowrap;
+	max-width: calc(100% - 2rem);
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #item-modal-price {

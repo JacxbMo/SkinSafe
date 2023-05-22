@@ -34,29 +34,55 @@ function calculateRecieveSend() {
 	}
 }
 
-//send sell request
-document.getElementById('item-modal-add-to-sale').addEventListener('click', () => {
-	const options = {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify({ assetId: localStorage.getItem('selectedSale'), itemPrice: document.getElementById('item-modal-input-pay').value }),
-	};
+window.addEventListener('click', (event) => {
+	if (event.target.id === 'item-modal-add-to-sale') {
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ assetId: localStorage.getItem('selectedSale'), itemPrice: document.getElementById('item-modal-input-pay').value }),
+		};
 
-	const sendSale = async () => {
-		const reqSale = await fetch('/sendSale', options);
-		const resSale = await reqSale.json();
+		const sendSale = async () => {
+			const reqSale = await fetch('/sendSale', options);
+			const resSale = await reqSale.json();
 
-		if (resSale.status === true) {
-			console.log(resSale);
-			saleFail();
-		} else {
-			console.log(false);
-		}
-	};
-	sendSale();
+			if (resSale.status === true) {
+				console.log(resSale);
+				saleFail();
+			} else {
+				console.log(false);
+			}
+		};
+		sendSale();
+	}
 });
+
+// //send sell request
+// document.getElementById('item-modal-add-to-sale').addEventListener('click', () => {
+// 	console.log('hello');
+// 	const options = {
+// 		method: 'POST',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify({ assetId: localStorage.getItem('selectedSale'), itemPrice: document.getElementById('item-modal-input-pay').value }),
+// 	};
+
+// 	const sendSale = async () => {
+// 		const reqSale = await fetch('/sendSale', options);
+// 		const resSale = await reqSale.json();
+
+// 		if (resSale.status === true) {
+// 			console.log(resSale);
+// 			saleFail();
+// 		} else {
+// 			console.log(false);
+// 		}
+// 	};
+// 	sendSale();
+// });
 
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
