@@ -69,20 +69,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-async function getFloat() {
-	const options = {
-		headers: {
-			origin: 'http://steamcommunity.com',
-		},
-	};
-
-	const getFloat = await fetch('https://api.csgofloat.com/?url=steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20M625254122282020305A6760346663D30614827701953021', options);
-	const seeFloat = await getFloat.json();
-	console.log(seeFloat);
-}
-
-getFloat();
-
 // Routes
 app.get('/getUser', (req, res) => {
 	if (req.user) {
@@ -137,6 +123,22 @@ app.get('/getInventory', (req, res) => {
 
 const indexFunctions = require('./functions.js');
 
+function checkDescription(description, descriptionTwo) {
+	if (description && description.includes('<i>')) {
+		return `${description.replace('<i>', '').replace('</i>', '')}.`;
+	} else if (description.length > 2 && !description.includes('Agents')) {
+		return description;
+	} else if (descriptionTwo.includes('graffiti')) {
+		return descriptionTwo.replace('<b>', '').replace('</b>', '');
+	} else if (descriptionTwo.includes('sticker')) {
+		return descriptionTwo;
+	} else if (descriptionTwo.includes('</i>')) {
+		return descriptionTwo.replace('</i>', '').replace('<i>', '');
+	} else {
+		return `Looks like this item doesn't have a description!`;
+	}
+}
+
 app.post('/sendSale', (req, res) => {
 	console.log(req.body);
 	requestPromise({
@@ -156,6 +158,7 @@ app.post('/sendSale', (req, res) => {
 					market_hash_name: itemDescription.market_hash_name,
 					icon_url_large: indexFunctions.checkIconUrl(itemDescription),
 					sticker_html: indexFunctions.checkStickers(itemDescription),
+					item_description: checkDescription(itemDescription.descriptions[2].value, itemDescription.descriptions[0].value),
 					inspect_link: indexFunctions.checkInspect(itemDescription, req.user.id, req.body.assetId),
 					wear: 0,
 					pattern_index: 0,
@@ -185,4 +188,20 @@ app.post('/sendSale', (req, res) => {
 			console.error(err);
 		}
 	);
+});
+
+app.get('/market', (req, res) => {
+	if (req.user) {
+		res.sendFile(path.join(__dirname, './online_html/market.html'));
+	} else {
+		res.sendFile(path.join(__dirname, './offline_html/market.html'));
+	}
+});
+
+app.get('/getMarket', (req, res) => {
+	connectSql.query('SELECT * FROM marketitems WHERE status = 1', (err, result) => {
+		if (err) throw err;
+		console.log(result);
+		res.send(result);
+	});
 });
