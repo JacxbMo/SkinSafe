@@ -221,6 +221,7 @@ function addStickers(stickerimg, stickerText) {
 	const stickerNames = stickerText.substring(stickerText.indexOf(`.png"><br>`), stickerText.lastIndexOf('</center>')).replace(`.png"><br>Sticker: `, '');
 
 	let tagsArray = stickerNames.split(/,\s*/).map((s) => ({ sticker: s }));
+	console.log(tagsArray);
 
 	if (stickerText.includes('Sticker') && !stickerText.includes('Patch')) {
 		for (let i = 0; i < foundStickers(stickerimg).length; i++) {
@@ -265,14 +266,14 @@ window.addEventListener('click', (event) => {
 		const assetId = event.target.closest('.market-grid-item').id;
 		const filteredDescription = marketArr[0].find((e) => e.assetid == assetId);
 
-		console.log(filteredDescription);
+		console.log(foundStickers(filteredDescription));
 
 		document.getElementById('item-modal').innerHTML = `
 				<div id="item-modal-image-container">
 					<div id="item-modal-image-top">
 						<p id="item-modal-close-button"><i class="fa-solid fa-arrow-left"></i>GO BACK</p>
 						<div id="item-modal-main-image-container">
-							<img id="item-modal-main-top" src="https://community.akamai.steamstatic.com/economy/image/${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-img').src}">
+							<img id="item-modal-main-top" src="${document.getElementById(assetId).closest('.market-grid-item').querySelector('.grid-item-img').src}">
 						</div>
 						<a id="item-modal-view-in-game" href="">VIEW IN GAME<i class="fa-solid fa-arrow-up-right-from-square"></i></a>
 						<div id="item-modal-float-container">
@@ -302,17 +303,8 @@ window.addEventListener('click', (event) => {
 					</div>
 					<p id="item-modal-description-title">DESCRIPTION :</p>
 					<p id="item-modal-description">${filteredDescription.item_description}</p>
-					<form id="send-item-sell-form">
-						<div class="item-modal-recieve-pay">
-							<p class="item-modal-split-title">YOU RECEIVE</p>
-							<div><p>€</p><input placeholder="0.00" type="number" step=".01" id="item-modal-input-recieve" oninput="calculateRecievePay()" maxlength="10"></div>
-						</div>
-						<div class="item-modal-recieve-pay">
-							<p class="item-modal-split-title">THEY PAY</p>
-							<div><p>€</p><input placeholder="0.00" type="number" name="itemPrice" step=".01" id="item-modal-input-pay" oninput="calculateRecieveSend()" maxlength="10"></div>
-						</div>
-					</form>
-					<input id="item-modal-add-to-sale" type="submit" value="PUT UP FOR SALE">
+
+					<a id="item-modal-logged-out-link" href="http://localhost:8080/api/auth/steam"><i class="fa-brands fa-steam"></i>SIGN IN</a>
 				</div>
 			`;
 		if (filteredDescription.inspect_link !== 0) {

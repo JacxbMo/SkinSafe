@@ -305,86 +305,37 @@
 	text-overflow: ellipsis;
 }
 
-#send-item-sell-form {
-	width: calc(100% - 2rem);
-	margin: 0 0 0 1rem;
-	position: absolute;
-	bottom: 88px;
-	display: flex;
-}
-
-.item-modal-split-title {
+#item-modal-logged-out-link {
+	width: calc(100% - 2rem - 4px);
+	margin: 1rem 0 0 1rem;
 	font-family: 'Genos', sans-serif;
-	color: white;
-	text-shadow: 0 0 5px black;
-	margin-bottom: 1px;
-	margin-right: auto;
-	margin-left: 31px;
-	opacity: 0.5;
-}
-
-#send-item-sell-form div div p {
-	color: white;
-	margin-right: 0.5rem;
-	font-family: 'Genos', sans-serif;
-	font-size: 1.25rem;
-	text-shadow: 0 0 5px black;
-	transform: translateY(7px);
-}
-
-.item-modal-recieve-pay {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
-}
-
-#send-item-sell-form div div input {
-	background-color: transparent;
-	border: 1px solid rgba(255, 255, 255, 0.125);
-	border-radius: 0.25rem;
-	font-family: 'Source Code Pro', monospace;
-	color: rgba(255, 255, 255, 0.75);
-	text-shadow: 0 0 5px black;
-	transform: translateY(2px);
-	padding: 2px 0.5rem 2px 0.5rem;
-	height: 2rem;
+	padding: 14px 0 1rem 0;
+	font-size: 1.25rem;
+	color: rgba(255, 255, 255, 1);
+	border-radius: 0.125rem;
+	border: 2px solid #1d2126;
+	background-color: rgb(67, 198, 227);
+	position: absolute;
+	bottom: 16px;
+	opacity: 0.5;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-#send-item-sell-form div div input::placeholder {
-	text-shadow: none;
 	transition: 0.25s;
+	cursor: pointer;
+	border: none;
+	text-decoration: none;
+	text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-#send-item-sell-form div div input:focus::placeholder {
-	opacity: 0;
+#item-modal-logged-out-link:hover {
+	opacity: 1;
 }
 
-#send-item-sell-form div div input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-#send-item-sell-form input[type='number'] {
-	-moz-appearance: textfield;
-}
-
-#send-item-sell-form div div input:focus {
-	outline: none;
-}
-
-#send-item-sell-form div div {
-	display: flex;
-}
-
-#item-modal-you-recieve {
-	width: calc(50% - 0.5rem);
-}
-
-.item-modal-recieve-pay {
-	width: calc(50% - 0.5rem);
+#item-modal-logged-out-link i {
+	transform: translateY(2px);
+	margin-right: 0.5rem;
 }
 
 #item-modal-no-stickers {
